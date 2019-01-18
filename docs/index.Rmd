@@ -115,7 +115,7 @@ After installing the packages in the preceding step, the following lines of code
 
 
 ### Example tmap
-```{r example map,  message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
+```{r tmap,  message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
 library(tmap)
 library(sf)
 library(spData)
@@ -127,7 +127,7 @@ tm_shape(us_states, projection = 2163) + tm_polygons("REGION") +
 ## Example Tigris File Map
 
 
-```{r}
+```{r sf map,  message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
 library(tigris)
 ga_districts <- tigris::school_districts("Georgia", type = "unified", 
                                          year = 2015)
