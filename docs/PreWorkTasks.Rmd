@@ -1,0 +1,150 @@
+---
+title: "GIS With R: Pre-Workshop Tasks"
+ipsum_meta:
+  # twitter_card: "Summary info for the Twitter Card"
+  # twitter_site: "\\@sitehandle"
+  # twitter_creator: "\\@creatorhandle"
+  # og_url: "https\\://example.com/open/graph/finalURLfor/this"
+  og_description: "Strategic Data Project Joint Winter Workshop 2019"
+  # og_image: "https\\://example.com/open/graph/imageURLfor/this"
+output: 
+  hrbrthemes::ipsum:
+    toc: true
+---
+```{r include=FALSE}
+knitr::opts_chunk$set(fig.retina=2)
+```
+
+```{r ipsum_setup, message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
+library(tidyverse)
+# update_geom_font_defaults(font_rc)
+```
+# Welcome
+
+This document contains all information related to the 2019 SDP GIS With R Workshop in Atlanta, GA (February 7, 2019). Please refer to this document to find all the information you'll need to get set up and get the most out of this workshop, including software, R packages, and additional resources. 
+
+## Instructors
+
+Roland Richard, Affiliation  <a href="https://" target="_blank"><i class="fas fa-link"></i></a> <a href="https://github.com/rrichard-gcps" target="_blank"><i class="fab fa-github"></i></a> <a href="https://twitter.com/rorich" target="_blank"><i class="fab fa-twitter"></i></a>
+
+Jared Knowles, Affiliation <a href="https://www.jaredknowles.com/" target="_blank"><i class="fas fa-link"></i></a> <a href="https://github.com/jknowles" target="_blank"><i class="fab fa-github"></i></a> <a href="https://twitter.com/jknowles" target="_blank"><i class="fab fa-twitter"></i></a>
+
+
+## What do I need to do before the workshop?
+
+You will need to follow these setup instructions: 
+
+1. Install/upgrade software
+2. Install R packages
+3. Set Census API key
+4. Create an example map with the tmap package
+
+
+## 1. <u>**Install or Upgrade Software**</u>     
+
+In this workshop, we will use R and [RStudio](https://www.rstudio.com/products/rstudio/). RStudio is highly recommended, because it makes it easier for most users to work with R Markdown. 
+
+### Install R
+
+* A [recent version of R](https://cran.rstudio.com/) (>= 3.5.1 "Feather Spray") is recommended. You can check your version from the R Console:
+
+```{r}
+R.version.string
+```
+
+
+#### Install RStudio
+
+* [RStudio](https://www.rstudio.com/products/rstudio/download/#download) (>= 1.1.463)  is recommended.
+
+
+#### Upgrading your system
+
+For more help installing or upgrading R and RStudio, please read through these links:
+
+1. [Maintaining R from **What They Forgot to Teach You About R**](https://whattheyforgot.org/maintaining-r.html)
+    - See ["How to transfer your library when updating R"](https://whattheyforgot.org/maintaining-r.html#how-to-transfer-your-library-when-updating-r)
+    
+
+## 2. <u>**Install R packages**</u>     
+For this workshop, you'll need to install several R packages. See below for a guide to installing the packages we will use. Run this code from your R console to install all of the necessary packages:
+
+```r
+pkgs_from_cran <- c("sf", "tmap", "tidyverse", "tidycensus", 
+                    "leaflet", "mapview","shiny", "ggplot2",
+                    "spData", "tigris")
+```
+
+```r
+install.packages(pkgs_from_cran, dependencies = TRUE)
+```
+
+```r
+pkgs_from_gh <- c("Nowosad/spDataLarge")
+```
+
+
+```r
+remotes::install_github(pkgs_from_gh, dependencies = TRUE)
+```
+
+### Check all package installs {#all}
+
+```r
+is_installed(c(pkgs_from_cran, pkgs_from_gh))
+```
+
+## 3. <u>**Set Census API key**</u>   
+To work with census data in the __tidycensus__ package, you should load the package along with the __tidyverse__ package, and set your Census API key.  An API key can be obtained from <http://api.census.gov/data/key_signup.html>. Follow the code below to set your API key.
+
+```{r, echo = FALSE}
+library(tidycensus)
+library(tidyverse)
+```
+
+```{r, eval = FALSE}
+library(tidycensus)
+library(tidyverse)
+
+census_api_key("YOUR API KEY GOES HERE")
+```
+
+## 4. <u>**Create Example Maps**</u>   
+Let's create a few quick maps . 
+After installing the packages in the preceding step, the following lines of code should create the maps shown below:
+
+
+### Example tmap
+```{r example map,  message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
+library(tmap)
+library(sf)
+library(spData)
+tm_shape(us_states, projection = 2163) + tm_polygons("REGION") + 
+  tm_layout(frame = FALSE)
+```
+
+
+## Example Tigris File Map
+
+
+```{r}
+library(tigris)
+ga_districts <- tigris::school_districts("Georgia", type = "unified", 
+                                         year = 2015)
+ga_districts <- sf::st_as_sf(ga_districts)
+
+ggplot() +
+	geom_sf(data = ga_districts) +
+	labs(title = "Georgia Unified School Districts in 2015") +
+	theme_bw() +
+	theme(axis.text = element_blank()) 
+
+
+```
+
+
+
+```{r bib, include=FALSE}
+# KEEP THIS AT THE END OF THE DOCUMENT TO GENERATE A LOCAL bib FILE FOR PKGS USED
+knitr::write_bib(sub("^package:", "", grep("package", search(), value=TRUE)), file='man/skeleton.bib')
+```
