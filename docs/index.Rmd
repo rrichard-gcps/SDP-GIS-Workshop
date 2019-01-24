@@ -21,13 +21,16 @@ library(tidyverse)
 ```
 # Welcome
 
-This document contains all information related to the 2019 SDP GIS With R Workshop in Atlanta, GA (February 7, 2019). Please refer to this document to find all the information you'll need to get set up and get the most out of this workshop, including software, R packages, and additional resources. 
+This document contains all information related to the 2019 SDP GIS With R
+Workshop in Atlanta, GA (February 7, 2019). Please refer to this document to
+find all the information you'll need to get set up and get the most out of this
+workshop, including software, R packages, and additional resources.
 
 ## Instructors
 
-Roland Richard, Affiliation  <a href="https://" target="_blank"><i class="fas fa-link"></i></a> <a href="https://github.com/rrichard-gcps" target="_blank"><i class="fab fa-github"></i></a> <a href="https://twitter.com/rorich" target="_blank"><i class="fab fa-twitter"></i></a>
+Roland Richard, Gwinnett County Public Schools  <a href="https://" target="_blank"><i class="fas fa-link"></i></a> <a href="https://github.com/rrichard-gcps" target="_blank"><i class="fab fa-github"></i></a> <a href="https://twitter.com/rorich" target="_blank"><i class="fab fa-twitter"></i></a>
 
-Jared Knowles, Affiliation <a href="https://www.jaredknowles.com/" target="_blank"><i class="fas fa-link"></i></a> <a href="https://github.com/jknowles" target="_blank"><i class="fab fa-github"></i></a> <a href="https://twitter.com/jknowles" target="_blank"><i class="fab fa-twitter"></i></a>
+Jared Knowles, Civilytics Consulting, LLC <a href="https://www.jaredknowles.com/" target="_blank"><i class="fas fa-link"></i></a> <a href="https://github.com/jknowles" target="_blank"><i class="fab fa-github"></i></a> <a href="https://twitter.com/jknowles" target="_blank"><i class="fab fa-twitter"></i></a>
 
 
 ## What do I need to do before the workshop?
@@ -42,11 +45,14 @@ You will need to follow these setup instructions:
 
 ## 1. <u>**Install or Upgrade Software**</u>     
 
-In this workshop, we will use R and [RStudio](https://www.rstudio.com/products/rstudio/). RStudio is highly recommended, because it makes it easier for most users to work with R Markdown. 
+In this workshop, we will use R and
+[RStudio](https://www.rstudio.com/products/rstudio/). RStudio is highly
+recommended, because it makes it easier for most users to work with R Markdown.
 
 ### Install R
 
-* A [recent version of R](https://cran.rstudio.com/) (>= 3.5.1 "Feather Spray") is recommended. You can check your version from the R Console:
+* A [recent version of R](https://cran.rstudio.com/) (>= 3.5.1 "Feather Spray")
+is recommended. You can check your version from the R Console:
 
 ```{r}
 R.version.string
@@ -64,15 +70,17 @@ For more help installing or upgrading R and RStudio, please read through these l
 
 1. [Maintaining R from **What They Forgot to Teach You About R**](https://whattheyforgot.org/maintaining-r.html)
     - See ["How to transfer your library when updating R"](https://whattheyforgot.org/maintaining-r.html#how-to-transfer-your-library-when-updating-r)
-    
+
 
 ## 2. <u>**Install R packages**</u>     
-For this workshop, you'll need to install several R packages. See below for a guide to installing the packages we will use. Run this code from your R console to install all of the necessary packages:
+For this workshop, you'll need to install several R packages. See below for a
+guide to installing the packages we will use. Run this code from your R console
+to install all of the necessary packages:
 
 ```r
 pkgs_from_cran <- c("sf", "tmap", "tidyverse", "tidycensus", 
                     "leaflet", "mapview","shiny", "ggplot2",
-                    "spData", "tigris")
+                    "spData", "tigris", "remotes")
 ```
 
 ```r
@@ -91,11 +99,14 @@ remotes::install_github(pkgs_from_gh, dependencies = TRUE)
 ### Check all package installs {#all}
 
 ```r
-is_installed(c(pkgs_from_cran, pkgs_from_gh))
+rlang::is_installed(c(pkgs_from_cran, pkgs_from_gh))
 ```
 
 ## 3. <u>**Set Census API key**</u>   
-To work with census data in the __tidycensus__ package, you should load the package along with the __tidyverse__ package, and set your Census API key.  An API key can be obtained from <http://api.census.gov/data/key_signup.html>. Follow the code below to set your API key.
+To work with census data in the __tidycensus__ package, you should load the
+package along with the __tidyverse__ package, and set your Census API key.  An
+API key can be obtained from <http://api.census.gov/data/key_signup.html>.
+Follow the code below to set your API key.
 
 ```{r, echo = FALSE}
 library(tidycensus)
@@ -106,15 +117,19 @@ library(tidyverse)
 library(tidycensus)
 library(tidyverse)
 
-census_api_key("YOUR API KEY GOES HERE")
+census_api_key("YOUR API KEY GOES HERE", install = TRUE)
 ```
 
 ## 4. <u>**Create Example Maps**</u>   
-Let's create a few quick maps . 
-After installing the packages in the preceding step, the following lines of code should create the maps shown below:
+Let's create a few quick maps . After installing the packages in the preceding
+step, the following lines of code should create the maps shown below:
 
 
 ### Example tmap
+
+A `tmap` is short for a `thematic map` - a map that is showing spatial data 
+along some theme. 
+
 ```{r tmap,  message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
 library(tmap)
 library(sf)
@@ -124,8 +139,10 @@ tm_shape(us_states, projection = 2163) + tm_polygons("REGION") +
 ```
 
 
-## Example Tigris File Map
+### Example Tigris File Map
 
+You can gain more control over how to make your maps by using shapefiles and 
+`ggplot2` directly. 
 
 ```{r sf map,  message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
 library(tigris)
@@ -137,14 +154,19 @@ ggplot() +
 	geom_sf(data = ga_districts) +
 	labs(title = "Georgia Unified School Districts in 2015") +
 	theme_bw() +
-	theme(axis.text = element_blank()) 
-
-
+	theme(axis.text = element_blank())  # suppress axis labels
 ```
 
+## Next Steps
 
+If you successfully produced the two maps above - you're ready for the workshop. 
+At the workshop we'll cover how to access geospatial data, geospatial data 
+types, and working with geospatial data to make impactful geospatial 
+visualizations of your data. 
 
 ```{r bib, include=FALSE}
 # KEEP THIS AT THE END OF THE DOCUMENT TO GENERATE A LOCAL bib FILE FOR PKGS USED
-knitr::write_bib(sub("^package:", "", grep("package", search(), value=TRUE)), file='man/skeleton.bib')
+knitr::write_bib(sub("^package:", "", 
+										 grep("package", search(), value=TRUE)), 
+								 file='man/skeleton.bib')
 ```
