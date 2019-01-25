@@ -1,12 +1,7 @@
 ---
 title: "GIS With R: Pre-Workshop Tasks"
 ipsum_meta:
-  # twitter_card: "Summary info for the Twitter Card"
-  # twitter_site: "\\@sitehandle"
-  # twitter_creator: "\\@creatorhandle"
-  # og_url: "https\\://example.com/open/graph/finalURLfor/this"
   og_description: "Strategic Data Project Joint Winter Workshop 2019"
-  # og_image: "https\\://example.com/open/graph/imageURLfor/this"
 output: 
   hrbrthemes::ipsum:
     toc: true
@@ -87,19 +82,10 @@ pkgs_from_cran <- c("sf", "tmap", "tidyverse", "tidycensus",
 install.packages(pkgs_from_cran, dependencies = TRUE)
 ```
 
-```r
-pkgs_from_gh <- c("Nowosad/spDataLarge")
-```
-
-
-```r
-remotes::install_github(pkgs_from_gh, dependencies = TRUE)
-```
-
 ### Check all package installs {#all}
 
 ```r
-rlang::is_installed(c(pkgs_from_cran, pkgs_from_gh))
+rlang::is_installed(c(pkgs_from_cran))
 ```
 
 ## 3. <u>**Set Census API key**</u>   
@@ -144,12 +130,15 @@ tm_shape(us_states, projection = 2163) + tm_polygons("REGION") +
 You can gain more control over how to make your maps by using shapefiles and 
 `ggplot2` directly. 
 
-```{r sf map,  message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
+```{r getdata, echo=TRUE, results='hide'}
 library(tigris)
 ga_districts <- tigris::school_districts("Georgia", type = "unified", 
                                          year = 2015)
 ga_districts <- sf::st_as_sf(ga_districts)
+```
 
+
+```{r sf map,  message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
 ggplot() +
 	geom_sf(data = ga_districts) +
 	labs(title = "Georgia Unified School Districts in 2015") +
@@ -159,14 +148,15 @@ ggplot() +
 
 ## Next Steps
 
-If you successfully produced the two maps above - you're ready for the workshop. 
+If you successfully produced the two maps above - you're ready for the workshop.
+
 At the workshop we'll cover how to access geospatial data, geospatial data 
 types, and working with geospatial data to make impactful geospatial 
 visualizations of your data. 
 
-```{r bib, include=FALSE}
-# KEEP THIS AT THE END OF THE DOCUMENT TO GENERATE A LOCAL bib FILE FOR PKGS USED
+```{r bib, include=TRUE}
+# KEEP THIS AT THE END OF THE DOCUMENT TO GENERATE A LOCAL bib FILE FOR PKGS
+# USED
 knitr::write_bib(sub("^package:", "", 
-										 grep("package", search(), value=TRUE)), 
-								 file='man/skeleton.bib')
+										 grep("package", search(), value=TRUE)))
 ```
