@@ -116,7 +116,7 @@ step, the following lines of code should create the maps shown below:
 A `tmap` is short for a `thematic map` - a map that is showing spatial data 
 along some theme. 
 
-```{r tmap,  message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
+```{r tmap,  message=FALSE, warning=FALSE, cache=FALSE, echo=TRUE}
 library(tmap)
 library(sf)
 library(spData)
@@ -138,7 +138,7 @@ ga_districts <- sf::st_as_sf(ga_districts)
 ```
 
 
-```{r sf map,  message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
+```{r sf map,  message=FALSE, warning=FALSE, cache=FALSE, echo=TRUE}
 ggplot() +
 	geom_sf(data = ga_districts) +
 	labs(title = "Georgia Unified School Districts in 2015") +
